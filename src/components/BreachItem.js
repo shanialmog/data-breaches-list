@@ -1,4 +1,4 @@
-const BreachItem = ({ breachItem, isOpen, onOpen }) => {
+const BreachItem = ({ breachItem, isOpen, onOpen, onClose }) => {
     const {
         Title,
         Description,
@@ -19,7 +19,7 @@ const BreachItem = ({ breachItem, isOpen, onOpen }) => {
     const icon = IsVerified && 'IsVerified'
 
     return (
-        <div onClick={onOpen}>
+        <div onClick={isOpen ? onClose : onOpen}>
             {
                 icon === 'IsVerified'
                     ?

@@ -57,6 +57,7 @@ const Breaches = () => {
                             breachItem={item}
                             isOpen={item.id === openBreachId}
                             onOpen={() => setOpenBreachId(item.id)}
+                            onClose={() => setOpenBreachId(null)}
                         />
                     )
                 })
