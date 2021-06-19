@@ -9,8 +9,12 @@ const Breaches = () => {
 
     useEffect(() => {
         const loadInitialPage = async () => {
-            const page = 0
-            const data = await getData()
+            let page = 0
+            const urlPage = getQueryParam('page')
+            if (typeof urlPage !== 'undefined') {
+                page = Number(urlPage)
+            }
+            const data = await getData(page)
             // Add page property to every item
             for (const i in data.items) {
                 data.items[i].page = page
@@ -49,8 +53,8 @@ const Breaches = () => {
         setIsFetching('bottom')
     }
 
-    const onOpen = (breachId) => () => {
-        setQueryParams(breachId, 0)
+    const onOpen = (breachId, page) => () => {
+        setQueryParams(breachId, page)
         setOpenBreachId(breachId)
     }
 
@@ -89,7 +93,7 @@ const Breaches = () => {
                             key={item.id}
                             breachItem={item}
                             isOpen={item.id === openBreachId}
-                            onOpen={onOpen(item.id)}
+                            onOpen={onOpen(item.id, item.page)}
                             onClose={onClose()}
                         />
                     )
