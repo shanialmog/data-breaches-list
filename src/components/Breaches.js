@@ -30,21 +30,35 @@ const Breaches = () => {
     }, [])
 
     useEffect(() => {
-        if (isFetching !== 'bottom') {
+        if (isFetching === null) {
             return
         }
         const fetchMoreData = async () => {
-            const lastItem = breachesList[breachesList.length - 1]
-            const page = lastItem.page + 1
+            let page
+            if (isFetching === 'bottom') {
+                const lastItem = breachesList[breachesList.length - 1]
+                page = lastItem.page + 1
+            } else {
+                const firstItem = breachesList[0]
+                page = firstItem.page - 1
+                if (page < 0) {
+                    return
+                }
+            }
             const data = await getData(page)
             // Add page property to every item
             for (const i in data.items) {
                 data.items[i].page = page
             }
-            setBreachesList([...breachesList, ...data.items])
+            if (isFetching === 'bottom') {
+                setBreachesList([...breachesList, ...data.items])
+            } else {
+                setBreachesList([...data.items, ...breachesList])
+            }
             setIsFetching(null)
         }
         fetchMoreData()
+        // eslint-disable-next-line
     }, [isFetching])
 
     const loadNextPage = () => {
@@ -52,6 +66,13 @@ const Breaches = () => {
             return
         }
         setIsFetching('bottom')
+    }
+
+    const loadPreviousPage = () => {
+        if (isFetching) {
+            return
+        }
+        setIsFetching('top')
     }
 
     const onOpen = (breachId, page) => () => {
@@ -83,23 +104,37 @@ const Breaches = () => {
         return params[param]
     }
 
+    const showLoadPreviousPage = breachesList.length > 0 && breachesList[0].page === 0
+
     return (
         <div className='breaches-container'>
             <h1>Data Breaches List</h1>
             {
-                breachesList &&
-                breachesList.map((item) => {
-                    return (
-                        <BreachItem
-                            key={item.id}
-                            breachItem={item}
-                            isOpen={item.id === openBreachId}
-                            onOpen={onOpen(item.id, item.page)}
-                            onClose={onClose()}
-                        />
-                    )
-                })
+                !showLoadPreviousPage &&
+                <Button
+                    className="button"
+                    onClick={loadPreviousPage}
+                    variant="contained"
+                >
+                    LOAD MORE
+                </Button>
             }
+            <div style={{marginTop: '1em'}}>
+                {
+                    breachesList &&
+                    breachesList.map((item) => {
+                        return (
+                            <BreachItem
+                                key={item.id}
+                                breachItem={item}
+                                isOpen={item.id === openBreachId}
+                                onOpen={onOpen(item.id, item.page)}
+                                onClose={onClose()}
+                            />
+                        )
+                    })
+                }
+            </div>
             <Button
                 className="button"
                 onClick={loadNextPage}
