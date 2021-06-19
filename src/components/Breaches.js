@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getData } from '../utils/API'
 import BreachItem from './BreachItem'
+import Button from '@material-ui/core/Button'
 
 const Breaches = () => {
     const [breachesList, setBreachesList] = useState([])
@@ -83,7 +84,7 @@ const Breaches = () => {
     }
 
     return (
-        <div>
+        <div className='breaches-container'>
             <h1>Data Breaches List</h1>
             {
                 breachesList &&
@@ -99,11 +100,13 @@ const Breaches = () => {
                     )
                 })
             }
-            <button
+            <Button
+                className="button"
                 onClick={loadNextPage}
+                variant="contained"
             >
                 LOAD MORE
-            </button>
+            </Button>
         </div>
     )
 }
