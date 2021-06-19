@@ -111,6 +111,7 @@ const Breaches = () => {
             <h1>Data Breaches List</h1>
             {
                 !showLoadPreviousPage &&
+                <div style ={{textAlign: 'center'}}>
                 <Button
                     className="button"
                     onClick={loadPreviousPage}
@@ -118,6 +119,7 @@ const Breaches = () => {
                 >
                     LOAD MORE
                 </Button>
+                </div>
             }
             <div style={{marginTop: '1em'}}>
                 {
@@ -135,6 +137,7 @@ const Breaches = () => {
                     })
                 }
             </div>
+            <div style ={{textAlign: 'center'}}>
             <Button
                 className="button"
                 onClick={loadNextPage}
@@ -142,6 +145,7 @@ const Breaches = () => {
             >
                 LOAD MORE
             </Button>
+            </div>
         </div>
     )
 }
