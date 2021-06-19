@@ -27,7 +27,6 @@ const Breaches = () => {
                     )
                 })
             }
-            {console.log(breachesList)}
         </div>
     )
 }
