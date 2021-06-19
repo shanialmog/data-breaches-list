@@ -1,9 +1,10 @@
 import './App.css'
+import Breaches from './components/Breaches'
 
 function App() {
   return (
     <div>
-      This is App
+      <Breaches />
     </div>
   )
 }
