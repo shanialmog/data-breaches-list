@@ -16,6 +16,10 @@ const Breaches = () => {
                 data.items[i].page = page
             }
             setBreachesList(data.items)
+            const urlBreachId = getQueryParam('breachId')
+            if (urlBreachId) {
+                setOpenBreachId(urlBreachId)
+            }
         }
         loadInitialPage()
     }, [])
@@ -66,6 +70,12 @@ const Breaches = () => {
         }
         const newRelativePathQuery = window.location.pathname + '?' + searchParams.toString()
         window.history.pushState(null, '', newRelativePathQuery)
+    }
+
+    const getQueryParam = (param) => {
+        const urlSearchParams = new URLSearchParams(window.location.search)
+        const params = Object.fromEntries(urlSearchParams.entries())
+        return params[param]
     }
 
     return (
