@@ -11,6 +11,7 @@ const Breaches = () => {
         const loadInitialPage = async () => {
             const page = 0
             const data = await getData()
+            // Add page property to every item
             for (const i in data.items) {
                 data.items[i].page = page
             }
@@ -27,6 +28,7 @@ const Breaches = () => {
             const lastItem = breachesList[breachesList.length - 1]
             const page = lastItem.page + 1
             const data = await getData(page)
+            // Add page property to every item
             for (const i in data.items) {
                 data.items[i].page = page
             }
@@ -53,7 +55,8 @@ const Breaches = () => {
                         <BreachItem
                             key={item.id}
                             breachItem={item}
-                            openBreachId={openBreachId}
+                            isOpen={item.id === openBreachId}
+                            onOpen={() => setOpenBreachId(item.id)}
                         />
                     )
                 })
