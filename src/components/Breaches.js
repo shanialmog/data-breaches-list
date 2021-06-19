@@ -45,6 +45,29 @@ const Breaches = () => {
         setIsFetching('bottom')
     }
 
+    const onOpen = (breachId) => () => {
+        setQueryParams(breachId, 0)
+        setOpenBreachId(breachId)
+    }
+
+    const onClose = () => () => {
+        setQueryParams(null, null)
+        setOpenBreachId(null)
+    }
+
+    const setQueryParams = (breachId, page) => {
+        const searchParams = new URLSearchParams(window.location.search)
+        if (breachId !== null) {
+            searchParams.set('breachId', breachId)
+            searchParams.set('page', page)
+        } else {
+            searchParams.delete('breachId')
+            searchParams.delete('page')
+        }
+        const newRelativePathQuery = window.location.pathname + '?' + searchParams.toString()
+        window.history.pushState(null, '', newRelativePathQuery)
+    }
+
     return (
         <div>
             <h1>Data Breaches List</h1>
@@ -56,8 +79,8 @@ const Breaches = () => {
                             key={item.id}
                             breachItem={item}
                             isOpen={item.id === openBreachId}
-                            onOpen={() => setOpenBreachId(item.id)}
-                            onClose={() => setOpenBreachId(null)}
+                            onOpen={onOpen(item.id)}
+                            onClose={onClose()}
                         />
                     )
                 })
